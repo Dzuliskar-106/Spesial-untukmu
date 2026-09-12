@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kamu ✨</title>
+    <!-- Google Fonts & Confetti Library -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ff6b8b;
+            --secondary-color: #d87093;
+            --accent-color: #ffd1dc;
+            --text-dark: #4a3e43;
+            --card-bg: rgba(255, 255, 255, 0.88);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .main-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* Glassmorphism Card Container */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
+            padding: 30px 22px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 
+                        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+            text-align: center;
+            position: relative;
+            max-height: 88vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) transparent;
+        }
+
+        .glass-card::-webkit-scrollbar {
+            width: 4px;
+        }
+        .glass-card::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        .card-page {
+            display: none;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .card-page.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Elements & Spacing */
+        .floating-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(216, 112, 147, 0.15);
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .icon-wrapper {
+            font-size: 50px;
+            margin-bottom: 12px;
+            display: inline-block;
+            filter: drop-shadow(0 8px 15px rgba(255, 107, 139, 0.3));
+            animation: pulseIcon 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: #b83b5e;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        p {
+            font-size: 0.93rem;
+            line-height: 1.6;
+            color: #5a4b51;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .quote-box {
+            background: rgba(255, 240, 245, 0.85);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin: 12px 0 18px 0;
+            border: 1px dashed var(--primary-color);
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #8c2a4e;
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn-glow {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 13px 28px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(255, 117, 140, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(255, 117, 140, 0.5);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.95);
+            color: #b83b5e;
+            border: 2px dashed #ff758c;
+            padding: 10px 18px;
+            font-size: 0.86rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-outline:hover {
+            background: #fff0f5;
+        }
+
+        /* Pesan Rahasia Accordion */
+        .secret-box {
+            display: none;
+            background: #fff0f5;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border: 1px solid #f8bbd0;
+            font-size: 0.88rem;
+            color: #8c2a4e;
+            line-height: 1.5;
+            text-align: left;
+            width: 100%;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Progress Dots */
+        .dots-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(216, 112, 147, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            width: 22px;
+            border-radius: 10px;
+            background: var(--primary-color);
+        }
+
+        /* Floating particles background */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -30px;
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Modal Pop-up Kustom Cantik */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(74, 62, 67, 0.4);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 28px;
+            padding: 28px 22px;
+            max-width: 320px;
+            width: 88%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 0 0 2px #ffe4e9;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-badge {
+            font-size: 45px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .modal-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2.1rem;
+            color: #b83b5e;
+            margin-bottom: 6px;
+        }
+
+        .modal-body {
+            font-size: 0.9rem;
+            color: #5a4b51;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 11px 26px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.35);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles-container" id="particles"></div>
+
+    <div class="main-wrapper">
+        <div class="glass-card">
+
+            <!-- PAGE 1 -->
+            <div class="card-page active" id="page1">
+                <span class="floating-badge">Pesan Khusus ✨</span>
+                <div class="icon-wrapper">🌸</div>
+                <h2>Hai, Haloo...</h2>
+                <p>Aku tahu beberapa hari terakhir ini rasanya pasti capek, bingung, dan berat banget buat kamu. Ada pesan singkat yang sengaja aku buat khusus untuk hari ini...</p>
+                <button class="btn-glow" onclick="goToPage(2)">Buka Pelan-Pelan Ya 😊</button>
+            </div>
+
+            <!-- PAGE 2 -->
+            <div class="card-page" id="page2">
+                <span class="floating-badge">Istirahat Sejenak 🌱</span>
+                <div class="icon-wrapper">🍃</div>
+                <h2>Nggak Apa-Apa...</h2>
+                <p>Kalau kamu lagi bingung, lelah, atau pengen diam dulu dari semuanya, itu hal yang sangat wajar. Kamu nggak harus selalu kelihatan kuat setiap saat.</p>
+                <div class="quote-box">
+                    "Pelan-pelan aja ya... Nggak ada yang perlu terburu-buru."
+                </div>
+                <button class="btn-glow" onclick="goToPage(3)">Lanjut Ya 🌷</button>
+            </div>
+
+            <!-- PAGE 3 -->
+            <div class="card-page" id="page3">
+                <span class="floating-badge">Janji Tulus 🛡️</span>
+                <div class="icon-wrapper">🤍</div>
+                <h2>Aku Tetap Di Sini...</h2>
+                <p>Jujur, keputusanmu buat memilih diam dan menarik diri sempat bikin aku sedih dan merasa kecewa. Tapi aku sadar, rasa kecewa itu nggak pernah lebih besar dari rasa peduliku ke kamu.</p>
+                <p>Seberapa jauh pun kamu mencoba menarik diri, <strong>aku nggak akan pernah benar-benar pergi meninggalkan kamu.</strong> Aku akan tetap menjaga kamu dari dekat maupun jauh.</p>
+                <button class="btn-glow" onclick="goToPage(4)">Satu Hal Lagi 🎁</button>
+            </div>
+
+            <!-- PAGE 4 -->
+            <div class="card-page" id="page4">
+                <span class="floating-badge">Rumah Aman 🏡</span>
+                <div class="icon-wrapper">✨</div>
+                <h2>Selalu Ada Tempat</h2>
+                <p>Dunia luar mungkin lagi berisik dan bikin kamu ragu buat percaya. Tapi ingat ya, di sini selalu ada tempat yang aman buat kamu kembali kapan pun kamu siap.</p>
+                
+                <!-- Tombol Pesan Rahasia -->
+                <button class="btn-outline" id="secretBtn" onclick="toggleSecret()">
+                    ✉️ Ada Pesan Rahasia / Voucher Buat Kamu
+                </button>
+
+                <!-- Isi Pesan Rahasia -->
+                <div class="secret-box" id="secretContent">
+                    🎁 <strong>Voucher Bebas Klaim:</strong><br>
+                    "Berhak dapet 1 Makanan/Minuman Favorit + Sesi Dengerin Curhat Tanpa Dihakimi. Berlaku kapan aja pas kamu udah siap!" 😉
+                </div>
+
+                <p style="color: #b83b5e; font-weight: 800; font-size: 0.95rem; margin-top: 5px;">
+                    Tetap semangat ya! Jangan lupa napas lega dan senyum dikit hari ini 😉✨
+                </p>
+                <button class="btn-glow" onclick="triggerFinalAction()">Kirim Senyuman 💖</button>
+            </div>
+
+            <!-- Progress Indicators -->
+            <div class="dots-wrapper">
+                <div class="dot active" id="dot1"></div>
+                <div class="dot" id="dot2"></div>
+                <div class="dot" id="dot3"></div>
+                <div class="dot" id="dot4"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Pop-up Kustom -->
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-card">
+            <div class="modal-badge">🥰</div>
+            <div class="modal-title">Makasih Ya!</div>
+            <div class="modal-body">
+                Nah gitu dong, senyumnya mana nih? 😊<br><br>
+                Ingat ya, ada aku yang selalu jagain kamu dari dekat maupun jauh. Tetap semangat hari ini! ✨
+            </div>
+            <button class="modal-btn" onclick="closeModal()">Siap! ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        function goToPage(pageNum) {
+            const pages = document.querySelectorAll('.card-page');
+            const dots = document.querySelectorAll('.dot');
+
+            pages.forEach(p => p.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            document.getElementById('page' + pageNum).classList.add('active');
+            document.getElementById('dot' + pageNum).classList.add('active');
+        }
+
+        // Toggle Secret Message Box
+        function toggleSecret() {
+            const secretBox = document.getElementById('secretContent');
+            const secretBtn = document.getElementById('secretBtn');
+            
+            if (secretBox.style.display === 'block') {
+                secretBox.style.display = 'none';
+                secretBtn.innerHTML = '✉️ Ada Pesan Rahasia / Voucher Buat Kamu';
+            } else {
+                secretBox.style.display = 'block';
+                secretBtn.innerHTML = '🙈 Sembunyikan Pesan Rahasia';
+                confetti({
+                    particleCount: 35,
+                    spread: 50,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
+
+        // Particle Generator Background
+        const particlesContainer = document.getElementById('particles');
+        const particleIcons = ['🌸', '✨', '💖', '🤍', '🌷', '☁️'];
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerHTML = particleIcons[Math.floor(Math.random() * particleIcons.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            particle.style.fontSize = (Math.random() * 10 + 16) + 'px';
+            particlesContainer.appendChild(particle);
+
+            setTimeout(() => { particle.remove(); }, 8000);
+        }
+
+        setInterval(createParticle, 450);
+
+        // Confetti & Pop-up Trigger
+        function triggerFinalAction() {
+            confetti({
+                particleCount: 85,
+                spread: 75,
+                origin: { y: 0.6 },
+                colors: ['#ff6b8b', '#ffd1dc', '#ffffff', '#ff7eb3']
+            });
+
+            setTimeout(() => {
+                document.getElementById('customModal').classList.add('active');
+            }, 300);
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
